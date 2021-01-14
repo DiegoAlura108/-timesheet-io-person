@@ -1,13 +1,15 @@
 package br.com.timesheetio.person.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.com.timesheetio.person.domain.PersonEntity;
 import br.com.timesheetio.person.dto.PersonDTO;
-import br.com.timesheetio.person.exceptions.ObjectAlreadyExistsException;
-import br.com.timesheetio.person.exceptions.ObjectNotFoundException;
+import br.com.timesheetio.person.exception.ObjectAlreadyExistsException;
+import br.com.timesheetio.person.exception.ObjectNotFoundException;
 import br.com.timesheetio.person.mapper.impl.PersonMapper;
 import br.com.timesheetio.person.repository.PersonRepository;
 
@@ -23,6 +25,11 @@ public class PersonService {
 	
 	@Autowired
 	private PersonMapper mapper;
+	
+	public Page<PersonDTO> findAll(Pageable pageable) {
+		
+		return personRepository.findAll(pageable).map(mapper::convertEntityToDto);
+	}
 	
 	public PersonDTO findById(Long id) {
 		

@@ -11,8 +11,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.timesheetio.person.dto.ExceptionResponseDTO;
-import br.com.timesheetio.person.exceptions.ObjectAlreadyExistsException;
-import br.com.timesheetio.person.exceptions.ObjectNotFoundException;
+import br.com.timesheetio.person.exception.ObjectAlreadyExistsException;
+import br.com.timesheetio.person.exception.ObjectNotFoundException;
 
 @ControllerAdvice
 public class ApplicationHandler extends ResponseEntityExceptionHandler {

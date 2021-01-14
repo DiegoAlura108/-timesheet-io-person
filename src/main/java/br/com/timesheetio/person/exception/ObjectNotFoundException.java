@@ -1,4 +1,4 @@
-package br.com.timesheetio.person.exceptions;
+package br.com.timesheetio.person.exception;
 
 
 import org.springframework.http.HttpStatus;
