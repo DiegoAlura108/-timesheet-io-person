@@ -7,23 +7,21 @@ spring:
   application:
     name: person
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/person?createIfNotExists=true&useTimezone=true&serverTimezone=UTC
-    username: root
-    password: root
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://ec2-3-211-149-196.compute-1.amazonaws.com:5432/d82bo9vlbfape8
+    username: oqciyapdaqvxvq
+    password: 45f0f2d2771adafce3a796d96c1563e0d5e3ebe285786b1e37dd68a575de2327
   jmx:
     enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: update
 
 eureka:
-  instance:
-    hostname: localhost
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: https://eureka-server-app-dev.herokuapp.com/eureka
