@@ -16,7 +16,7 @@
 	<description>This project is a webservice RESTFul to manager person/client in our base.</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.0-M6</spring-cloud.version>
 		<springfox-version>3.0.0</springfox-version>
 		<jackson-version>2.9.4</jackson-version>
@@ -168,6 +168,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
 			</plugin>
 		</plugins>
 
