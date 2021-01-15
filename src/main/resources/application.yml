@@ -8,9 +8,9 @@ spring:
     name: person
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://ec2-3-211-149-196.compute-1.amazonaws.com:5432/d82bo9vlbfape8
-    username: oqciyapdaqvxvq
-    password: 45f0f2d2771adafce3a796d96c1563e0d5e3ebe285786b1e37dd68a575de2327
+    url: jdbc:postgresql://ec2-54-158-190-214.compute-1.amazonaws.com:5432/da7i9rb9iit0s8
+    username: isbtmycxerlski
+    password: 6528b1b8e48ad6e63384a90eaa983d5cc6c096c7b7d43d7826dc09f03e691004
   jmx:
     enabled: true
   jpa:
