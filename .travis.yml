@@ -1,3 +1,10 @@
 language: java
 jdk:
- -openjdk8
+  -openjdk8
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZLe1JVaVRIzypyBUEIG4epS72gYHsZV52VgWc7E7ubxDIHvs9zF3WdCFoiksF0D4NnzCatKps7xAGn3BWgoCJECtiZwTVcqGYnF1QyPgMVClu4u+EaqVIACR0R1pwW+X6P9yLIUqYtYNvFzz5W2g7pl99CbLn7C66W4xxMK3pHbF2qgq5hWIpkeBp+YgC+fUKstf9yu69zHA3kCBfQVbVI+64hylC+zPIKu+TU8U5OSj0U23LEVgIQIX3gftu55ZqF0vqxU6ho7HT234L5JX/lMgMHsyUK9agkKTMCxI/FAPMgz/f6gVlJuiFsR46E5CMSfjeVxSZ0lO5mVSydu/mfcJ/sBx/3yW38u9j7e3uuZAzMa8wjqfCjhiTNGZLO0+eWQuQa1WxK+0rlnwJ52OxXjj5uZt2/kIl6pgrpGguZfKqOdkIM5xNhQ4hpzHAvqv+RaDNQud8QcTHH8BlnHew5qdDK1Pbl1qcDF18vL80kuzD0KiBZcLeXfo01fuxA/b3UrQFVHQAwCjNoswywme8ZjdkxvM/uZcdrveILtGH4qMvBqCL3+t2gPreeCZ7JONCvUl8t5ttmO5PYvjX3EeK/Hklbsd78BwWOWo1BGKkmUIAWMfeQvTq4LzzPB09IDO9IzEoQ/VJ77ueMAdlg6wf3gJuECOu5h6pN02AKwwHHY=
+  app: ms-timesheet-person-app-dev
+  on:
+    branch: master
