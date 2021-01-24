@@ -93,7 +93,7 @@ public class PersonResource {
 	}
 	
 	@PutMapping
-	public ResponseEntity<PersonDTO> update(@RequestBody PersonDTO person) {
+	public ResponseEntity<ResponseDTO<PersonDTO>> update(@RequestBody PersonDTO person) {
 		
 		logger.info("UPDATING PERSON OBJECT ...: {}", person);
 		
@@ -107,7 +107,7 @@ public class PersonResource {
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonResource.class).update(personUpdated)).withSelfRel());
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonResource.class).delete(personUpdated.getId())).withRel("DELETE"));		
 		
-		return ResponseEntity.ok(person);
+		return ResponseEntity.ok(response);
 	}
 	
 	@DeleteMapping("/{id}")
