@@ -27,7 +27,7 @@ public class AddressDTO implements Serializable {
 	
 	private String neighborhood;
 
-	private String number;
+	private Integer number;
 	
 	private String complement;
 	

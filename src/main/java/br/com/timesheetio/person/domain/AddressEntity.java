@@ -32,7 +32,7 @@ public class AddressEntity implements Serializable {
 	private String neighborhood;
 	
 	@Column(name= "NUMBER")
-	private String number;
+	private Integer number;
 	
 	@Column(name= "COMPLEMENT")
 	private String complement;
