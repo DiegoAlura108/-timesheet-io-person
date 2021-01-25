@@ -35,15 +35,15 @@ public class PersonEntity implements Serializable {
 	private Long id;
 	
 	@Column(name= "SOCIAL_RASON")
-	private String SOCIALRASON;
+	private String socialRason;
 	
 	@Column(name= "FIRST_NAME")
 	private String firstName;
 	
 	@Column(name= "LAST_NAME")
-	private String LASTNAME;
+	private String lastName;
 	
-	@Column(name= "NICKNAME")
+	@Column(name= "NICK_NAME")
 	private String nickName;
 	
 	@Column(name= "AGE")

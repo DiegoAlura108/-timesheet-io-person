@@ -21,7 +21,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -149,8 +148,7 @@ public class PersonResourceUnitTest {
 		
 		assertNotNull(response.getBody());
 		
-		@SuppressWarnings("unchecked")
-		ResponseDTO<Page<PersonDTO>> responseOk = (ResponseDTO<Page<PersonDTO>>) response.getBody();
+		ResponseDTO<?> responseOk = (ResponseDTO<?>) response.getBody();
 		
 		assertNotNull(responseOk.getData());
 		
