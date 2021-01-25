@@ -1,7 +1,6 @@
 package br.com.timesheetio.person.service;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +42,15 @@ public class PersonServiceIntegratedTest {
 	@Mock
 	private PersonRepository personRepository;
 	
-	@Mock
+	@Mock	
 	private PersonMapper personMapper;
 	
 	@InjectMocks
 	private PersonService personService;
 	
 	public static PersonEntity personEntity;
+	
+	public static PersonDTO personDto;
 	
 	@BeforeAll
 	public static void beforeAll() {
@@ -64,6 +65,16 @@ public class PersonServiceIntegratedTest {
 		personEntity.setDocument("39.726.836-1");
 		personEntity.setPersonType(PersonType.FISIC);
 		personEntity.setPersonUserKey(new BCryptPasswordEncoder().encode("123456789"));
+		
+		personDto = new PersonDTO();
+		personDto.setId(1L);
+		personDto.setSocialRason("");
+		personDto.setFirstName("Diego");
+		personDto.setLastName("Cordeiro");
+		personDto.setNickName("Feijao Riollando e.E");
+		personDto.setAge(25);
+		personDto.setDocument("39.726.836-1");
+		personDto.setPersonType(PersonType.FISIC);
 	}
 	
 	@Test
@@ -85,12 +96,13 @@ public class PersonServiceIntegratedTest {
 	@Test
 	public void testFindById() {
 		
-		Optional<PersonEntity> optionalPerson = Optional.of(personEntity);
+		Optional<PersonEntity> optionalPerson = Optional.ofNullable(personEntity == null ? new PersonEntity() : personEntity);
 		
 		Mockito.when(personRepository.findById(personEntity.getId())).thenReturn(optionalPerson);
+		Mockito.when(personMapper.convertEntityToDto(personEntity)).thenReturn(personDto);
 		
 		PersonDTO person = personService.findById(personEntity.getId());
 		
-		assertNull(person);
+		assertNotNull(person);
 	}
 }
