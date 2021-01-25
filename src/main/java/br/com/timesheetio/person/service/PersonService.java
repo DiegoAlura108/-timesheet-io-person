@@ -1,5 +1,7 @@
 package br.com.timesheetio.person.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +35,14 @@ public class PersonService {
 	
 	public PersonDTO findById(Long id) {
 		
-		PersonEntity personEntity = personRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(PersonService.MESSAGE_OBJECT_NOT_FOUND, HttpStatus.NOT_FOUND));
+		Optional<PersonEntity> optionalPersonEntity = personRepository.findById(id);
 		
-		return mapper.convertEntityToDto(personEntity);
+		if(optionalPersonEntity.isPresent()) {
+			
+			return mapper.convertEntityToDto(optionalPersonEntity.get());
+		} 
+		
+		throw new ObjectNotFoundException(PersonService.MESSAGE_OBJECT_NOT_FOUND, HttpStatus.NOT_FOUND);
 	}
 	
 	public PersonDTO update(PersonDTO personDTO) {

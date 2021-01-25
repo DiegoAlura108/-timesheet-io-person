@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ public class PersonServiceIntegratedTest {
 	public static void beforeAll() {
 		
 		personEntity = new PersonEntity();
-		personEntity.setId(null);
+		personEntity.setId(1L);
 		personEntity.setSocialRason("");
 		personEntity.setFirstName("Diego");
 		personEntity.setLastName("Cordeiro");
@@ -78,5 +79,17 @@ public class PersonServiceIntegratedTest {
 		Page<PersonDTO> personPage = personService.findAll(pageable);
 		
 		assertNotNull(personPage);
+	}
+	
+	@Test
+	public void testFindById() {
+		
+		Optional<PersonEntity> optionalPerson = Optional.of(personEntity);
+		
+		Mockito.when(personRepository.findById(personEntity.getId())).thenReturn(optionalPerson);
+		
+		PersonDTO person = personService.findById(personEntity.getId());
+		
+		assertNull(person);
 	}
 }
