@@ -1,6 +1,7 @@
 package br.com.timesheetio.person.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
