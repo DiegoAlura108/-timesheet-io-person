@@ -1,6 +1,7 @@
 package br.com.timesheetio.person.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.times;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class PersonServiceIntegratedTest {
 		personEntity.setAge(25);
 		personEntity.setDocument("39.726.836-1");
 		personEntity.setPersonType(PersonType.FISIC);
-		personEntity.setPersonUserKey(new BCryptPasswordEncoder().encode("123456789"));
+		personEntity.setPersonAuthUserKey(new BCryptPasswordEncoder().encode("123456789"));
 		
 		personDto = new PersonDTO();
 		personDto.setId(1L);
@@ -104,5 +105,7 @@ public class PersonServiceIntegratedTest {
 		PersonDTO person = personService.findById(personEntity.getId());
 		
 		assertNotNull(person);
+		
+		Mockito.verify(personRepository, times(1)).findById(personEntity.getId());
 	}
 }

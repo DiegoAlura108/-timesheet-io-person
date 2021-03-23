@@ -60,7 +60,7 @@ public class PersonResourceIntegratedTest {
 		personEntity.setAge(25);
 		personEntity.setDocument("39.726.836-1");
 		personEntity.setPersonType(PersonType.FISIC);
-		personEntity.setPersonUserKey(new BCryptPasswordEncoder().encode("123456789"));
+		personEntity.setPersonAuthUserKey(new BCryptPasswordEncoder().encode("123456789"));
 		
 		persons.add(personEntity);
 		

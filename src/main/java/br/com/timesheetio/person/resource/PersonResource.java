@@ -21,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.timesheetio.person.configuration.SwaggerConfig;
 import br.com.timesheetio.person.dto.PersonDTO;
 import br.com.timesheetio.person.dto.ResponseDTO;
 import br.com.timesheetio.person.service.PersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
-@Api(tags = {"Gestao de Pessoas"})
+@Api(tags = SwaggerConfig.TAG_PERSON_OPERATION)
 @RestController
 @RequestMapping("/person")
 public class PersonResource {
@@ -35,8 +39,14 @@ public class PersonResource {
 	
 	@Autowired
 	private PersonService personService;
-	
-	@GetMapping("/")
+
+	@ApiOperation(value = "This operation is used to find all persons.")	
+	@ApiResponses(value =  {
+			@ApiResponse(code = 200, message = "Persons founded."),
+			@ApiResponse(code = 404, message = "Persons not found."),
+			@ApiResponse(code = 500, message = "Server error.")
+	})
+	@GetMapping
 	public ResponseEntity<ResponseDTO<Page<PersonDTO>>> findAll(@RequestParam(name = "page", defaultValue = "0") int page, 
 																@RequestParam(name = "limit", defaultValue = "12") int limit,
 																@RequestParam(name = "direction", defaultValue = "asc") String direction,
@@ -57,6 +67,13 @@ public class PersonResource {
 		return ResponseEntity.ok(response);
 	}
 	
+
+	@ApiOperation(value = "This operation is used to find persons by id.")	
+	@ApiResponses(value =  {
+			@ApiResponse(code = 200, message = "Person founded."),
+			@ApiResponse(code = 404, message = "Person not found."),
+			@ApiResponse(code = 500, message = "Server error.")
+	})
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseDTO<PersonDTO>> findById(@PathVariable("id") Long id){
 		
@@ -74,6 +91,12 @@ public class PersonResource {
 		return ResponseEntity.ok(response);
 	}
 	
+	@ApiOperation(value = "This operation is used to save persons.")	
+	@ApiResponses(value =  {
+			@ApiResponse(code = 200, message = "Persons saved."),
+			@ApiResponse(code = 400, message = "Bad request."),
+			@ApiResponse(code = 500, message = "Server error.")
+	})
 	@PostMapping
 	public ResponseEntity<ResponseDTO<PersonDTO>> save(@RequestBody PersonDTO person) {
 		
@@ -91,7 +114,14 @@ public class PersonResource {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
+
 	
+	@ApiOperation(value = "This operation is used to update persons.")	
+	@ApiResponses(value =  {
+			@ApiResponse(code = 200, message = "Persons updated."),
+			@ApiResponse(code = 400, message = "Bad request."),
+			@ApiResponse(code = 500, message = "Server error.")
+	})
 	@PutMapping
 	public ResponseEntity<ResponseDTO<PersonDTO>> update(@RequestBody PersonDTO person) {
 		
@@ -109,7 +139,14 @@ public class PersonResource {
 		
 		return ResponseEntity.ok(response);
 	}
-	
+
+	@ApiOperation(value = "This operation is used to delete persons.")	
+	@ApiResponses(value =  {
+			@ApiResponse(code = 204, message = "Person deleted."),
+			@ApiResponse(code = 400, message = "Bad request."),
+			@ApiResponse(code = 404, message = "Person Not Found."),
+			@ApiResponse(code = 500, message = "Server error.")
+	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 

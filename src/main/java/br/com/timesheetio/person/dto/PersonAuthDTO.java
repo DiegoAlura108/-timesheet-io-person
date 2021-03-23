@@ -2,9 +2,18 @@ package br.com.timesheetio.person.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonAuthDTO implements Serializable {
 	
 	/**
@@ -16,5 +25,13 @@ public class PersonAuthDTO implements Serializable {
 	
 	private String password;
 	
-	private String personUserKey;
+	private String personAuthUserKey;
+	
+	private boolean accountNonExpired;
+	
+	private boolean accountNonLocked;
+	
+	private boolean credentialsNonExpired;
+	
+	private boolean enabled;
 }

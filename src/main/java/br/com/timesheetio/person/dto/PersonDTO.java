@@ -41,6 +41,9 @@ public class PersonDTO implements Serializable {
 	
 	private PersonType personType;
 	
+	@Embedded
+	private PersonAuthDTO personAuth;
+	
 	private LocalDate createdDate;
 
 	private LocalDate updatedDate;

@@ -18,6 +18,16 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  flyway:    baseline-on-migrate: true
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: https://ms-timesheet-auth-app-dev.herokuapp.com//person-auth/me
+
+host:
+  link:
+    authorization: https://ms-timesheet-auth-app-dev.herokuapp.com/oauth/token
 
 eureka:
   client:

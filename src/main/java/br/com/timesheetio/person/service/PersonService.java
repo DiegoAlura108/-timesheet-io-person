@@ -6,8 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import br.com.timesheetio.person.client.AuthFeignClient;
 import br.com.timesheetio.person.domain.PersonEntity;
+import br.com.timesheetio.person.dto.PersonAuthDTO;
 import br.com.timesheetio.person.dto.PersonDTO;
+import br.com.timesheetio.person.dto.ResponseDTO;
 import br.com.timesheetio.person.exception.ObjectAlreadyExistsException;
 import br.com.timesheetio.person.exception.ObjectNotFoundException;
 import br.com.timesheetio.person.mapper.impl.PersonMapper;
@@ -22,6 +25,9 @@ public class PersonService {
 	
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private AuthFeignClient authFeignClient;
 	
 	@Autowired
 	private PersonMapper mapper;
@@ -44,6 +50,8 @@ public class PersonService {
 		
 		PersonEntity personEntity = mapper.convertDtoToEntity(personFound);
 		
+		authFeignClient.updatePersonAuth(personDTO.getPersonAuth()).getBody();
+		
 		return mapper.convertEntityToDto(personRepository.save(personEntity));
 	}
 	
@@ -61,7 +69,18 @@ public class PersonService {
 			throw new ObjectAlreadyExistsException(PersonService.MESSAGE_OBJECT_ALREADY_EXIST, HttpStatus.BAD_REQUEST);
 		}
 		
+		personDTO.getPersonAuth().setAccountNonExpired(true);
+		personDTO.getPersonAuth().setAccountNonLocked(true);
+		personDTO.getPersonAuth().setCredentialsNonExpired(true);
+		personDTO.getPersonAuth().setEnabled(true);
+		
+		ResponseDTO<PersonAuthDTO> responsePersonAuth = authFeignClient.savePersonAuth(personDTO.getPersonAuth()).getBody();
+		
 		PersonEntity personEntity = mapper.convertDtoToEntity(personDTO);
+		
+		if(responsePersonAuth.getStatus() == 201) {
+			personEntity.setPersonAuthUserKey(responsePersonAuth.getData().getPersonAuthUserKey());
+		}
 		
 		return mapper.convertEntityToDto(personRepository.save(personEntity));
 	}

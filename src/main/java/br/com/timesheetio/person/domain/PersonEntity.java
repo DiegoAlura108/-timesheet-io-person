@@ -61,7 +61,7 @@ public class PersonEntity implements Serializable {
 	private PersonType personType;
 
 	@Column(name= "PERSON_USER_KEY")
-	private String personUserKey;
+	private String personAuthUserKey;
 	
 	@Column(name= "CREATED_DATE")
 	private LocalDate createdDate;
