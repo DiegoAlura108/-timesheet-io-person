@@ -4,14 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.timesheetio.person.client.AuthFeignClient;
 import br.com.timesheetio.person.domain.PersonEntity;
 import br.com.timesheetio.person.dto.PersonAuthDTO;
 import br.com.timesheetio.person.dto.PersonDTO;
-import br.com.timesheetio.person.dto.ResponseDTO;
 import br.com.timesheetio.person.exception.ObjectAlreadyExistsException;
 import br.com.timesheetio.person.exception.ObjectNotFoundException;
 import br.com.timesheetio.person.mapper.impl.PersonMapper;
@@ -28,7 +25,7 @@ public class PersonService {
 	private PersonRepository personRepository;
 	
 	@Autowired
-	private AuthFeignClient authFeignClient;
+	private PersonAuthService personAuthService;
 	
 	@Autowired
 	private PersonMapper mapper;
@@ -51,7 +48,7 @@ public class PersonService {
 		
 		PersonEntity personEntity = mapper.convertDtoToEntity(personFound);
 		
-		authFeignClient.updatePersonAuth(personDTO.getPersonAuth()).getBody();
+		personAuthService.updatePersonAuth(personDTO.getPersonAuth());
 		
 		return mapper.convertEntityToDto(personRepository.save(personEntity));
 	}
@@ -75,13 +72,11 @@ public class PersonService {
 		personDTO.getPersonAuth().setCredentialsNonExpired(true);
 		personDTO.getPersonAuth().setEnabled(true);
 		
-		ResponseEntity<ResponseDTO<PersonAuthDTO>> responsePersonAuth = authFeignClient.savePersonAuth(personDTO.getPersonAuth());
+		PersonAuthDTO personAuth = personAuthService.savePersonAuth(personDTO.getPersonAuth()).getData();
 		
 		PersonEntity personEntity = mapper.convertDtoToEntity(personDTO);
 		
-		if(responsePersonAuth.getBody().getStatus() == 201) {
-			personEntity.setPersonAuthUserKey(responsePersonAuth.getBody().getData().getPersonAuthUserKey());
-		}
+		personEntity.setPersonAuthUserKey(personAuth.getPersonAuthUserKey());
 		
 		return mapper.convertEntityToDto(personRepository.save(personEntity));
 	}

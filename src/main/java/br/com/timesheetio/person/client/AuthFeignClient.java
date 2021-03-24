@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import br.com.timesheetio.person.dto.PersonAuthDTO;
 import br.com.timesheetio.person.dto.ResponseDTO;
 
-@FeignClient(value= "${host.link.default}")
+@FeignClient("${host.link.default}")
 public interface AuthFeignClient {
 
 	@RequestMapping(path = "/person-auth", method = RequestMethod.POST)
