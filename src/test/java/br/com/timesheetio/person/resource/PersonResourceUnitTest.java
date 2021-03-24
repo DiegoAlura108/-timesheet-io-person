@@ -174,9 +174,8 @@ public class PersonResourceUnitTest {
 		assertNotNull(response.getBody());
 		
 		ResponseDTO<?> responseOk = (ResponseDTO<?>) response.getBody();
-		
-		assertNotNull(responseOk.getData());
-		
+
+		assertNotNull(responseOk.getData());		
 		assertEquals(200, responseOk.getStatus());
 	}
 }
