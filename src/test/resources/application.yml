@@ -17,7 +17,11 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-      
+
+host:
+  link:
+    authorization: https://ms-timesheet-auth-app-dev.herokuapp.com/oauth/token
+
 eureka:
   client:
     fetch-registry: true

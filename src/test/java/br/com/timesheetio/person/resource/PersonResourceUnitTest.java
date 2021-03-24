@@ -29,8 +29,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
+import br.com.timesheetio.person.client.AuthFeignClient;
 import br.com.timesheetio.person.dto.AddressDTO;
+import br.com.timesheetio.person.dto.PersonAuthDTO;
 import br.com.timesheetio.person.dto.PersonDTO;
 import br.com.timesheetio.person.dto.ResponseDTO;
 import br.com.timesheetio.person.enums.PersonType;
@@ -38,6 +41,7 @@ import br.com.timesheetio.person.service.PersonService;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles({"test"})
 @RunWith(JUnitPlatform.class)
 public class PersonResourceUnitTest {
 
@@ -53,13 +57,31 @@ public class PersonResourceUnitTest {
 	@MockBean
 	private PersonService personService;
 	
+	@MockBean
+	private AuthFeignClient authFeignClient;
+	
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 	
 	private static PersonDTO personDTO;
 	
+	private static ResponseDTO<PersonAuthDTO> personAuthResponseDTO;
+	
+	private static PersonAuthDTO personAuthDTO;
+	
 	@BeforeAll
 	public static void init() {
+		
+		personAuthResponseDTO = new ResponseDTO<PersonAuthDTO>();
+		
+		personAuthDTO = PersonAuthDTO.builder()
+					 .email("diego.test@gmail.com")
+					 .password("123456789")
+					 .personAuthUserKey("db6634ca8589495fb3e15043e298bc91")
+					 .build();
+		
+		personAuthResponseDTO.setStatus(201);
+		personAuthResponseDTO.setData(personAuthDTO);
 		
 		personDTO = PersonDTO.builder().id(1l)
 				 		   .firstName("Diego")
@@ -78,6 +100,7 @@ public class PersonResourceUnitTest {
 				 				   						.reference("State School Santa Maria")
 				 				   						.complement("")
 				 				   						.build())
+				 		   .personAuth(personAuthDTO)
 				 		   .build();
 	}
 	
@@ -86,6 +109,7 @@ public class PersonResourceUnitTest {
 		
 		HttpEntity<PersonDTO> request = new HttpEntity<PersonDTO>(personDTO);
 		
+		Mockito.when(this.authFeignClient.savePersonAuth(personAuthDTO)).thenReturn(ResponseEntity.ok(personAuthResponseDTO));
 		Mockito.when(this.personService.save(personDTO)).thenReturn(personDTO);
 		
 		ResponseEntity<ResponseDTO<PersonDTO>> response = testRestTemplate.exchange("http://localhost:" + port + "/person", HttpMethod.POST, request, new ParameterizedTypeReference<ResponseDTO<PersonDTO>>() {});
@@ -100,6 +124,7 @@ public class PersonResourceUnitTest {
 		
 		HttpEntity<PersonDTO> request = new HttpEntity<PersonDTO>(personDTO);
 		
+		Mockito.when(this.authFeignClient.updatePersonAuth(personAuthDTO)).thenReturn(ResponseEntity.ok(personAuthResponseDTO));
 		Mockito.when(this.personService.update(personDTO)).thenReturn(personDTO);
 		
 		ResponseEntity<ResponseDTO<PersonDTO>> response = testRestTemplate.exchange("http://localhost:" + port + "/person/", HttpMethod.PUT, request, new ParameterizedTypeReference<ResponseDTO<PersonDTO>>() {});

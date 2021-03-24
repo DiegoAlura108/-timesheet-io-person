@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.timesheetio.person.client.AuthFeignClient;
@@ -74,12 +75,12 @@ public class PersonService {
 		personDTO.getPersonAuth().setCredentialsNonExpired(true);
 		personDTO.getPersonAuth().setEnabled(true);
 		
-		ResponseDTO<PersonAuthDTO> responsePersonAuth = authFeignClient.savePersonAuth(personDTO.getPersonAuth()).getBody();
+		ResponseEntity<ResponseDTO<PersonAuthDTO>> responsePersonAuth = authFeignClient.savePersonAuth(personDTO.getPersonAuth());
 		
 		PersonEntity personEntity = mapper.convertDtoToEntity(personDTO);
 		
-		if(responsePersonAuth.getStatus() == 201) {
-			personEntity.setPersonAuthUserKey(responsePersonAuth.getData().getPersonAuthUserKey());
+		if(responsePersonAuth.getBody().getStatus() == 201) {
+			personEntity.setPersonAuthUserKey(responsePersonAuth.getBody().getData().getPersonAuthUserKey());
 		}
 		
 		return mapper.convertEntityToDto(personRepository.save(personEntity));
