@@ -5,7 +5,7 @@ server:
     
 spring:
   application:
-    name: person
+    name: person-local
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://ec2-54-158-190-214.compute-1.amazonaws.com:5432/da7i9rb9iit0s8
@@ -23,10 +23,11 @@ spring:
 security:
   oauth2:
     resource:
-      user-info-uri: https://ms-timesheet-auth-app-dev.herokuapp.com//person-auth/me
+      user-info-uri: https://ms-timesheet-auth-app-dev.herokuapp.com/person-auth/me
 
 host:
   link:
+    default: https://ms-timesheet-auth-app-dev.herokuapp.com
     authorization: https://ms-timesheet-auth-app-dev.herokuapp.com/oauth/token
 
 eureka:

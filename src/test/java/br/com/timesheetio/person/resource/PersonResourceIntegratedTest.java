@@ -62,17 +62,6 @@ public class PersonResourceIntegratedTest {
 	@BeforeEach
 	public void beforeEach() {
 
-		personAuthResponseDTO = new ResponseDTO<PersonAuthDTO>();
-
-		personAuthDTO = PersonAuthDTO.builder()
-									 .email("diego.test@gmail.com")
-									 .password("123456789")
-									 .personAuthUserKey("db6634ca8589495fb3e15043e298bc91")
-									 .build();
-
-		personAuthResponseDTO.setStatus(201);
-		personAuthResponseDTO.setData(personAuthDTO);
-
 		List<PersonEntity> persons = new ArrayList<>();
 
 		PersonEntity personEntity = new PersonEntity();
@@ -99,6 +88,18 @@ public class PersonResourceIntegratedTest {
 
 	@Test
 	public void testSave() {
+		
+		personAuthResponseDTO = new ResponseDTO<PersonAuthDTO>();
+
+		personAuthDTO = PersonAuthDTO.builder()
+									 .email("diego.test@gmail.com")
+									 .password("123456789")
+									 .personAuthUserKey("db6634ca8589495fb3e15043e298bc91")
+									 .build();
+
+		personAuthResponseDTO.setStatus(201);
+		personAuthResponseDTO.setData(personAuthDTO);
+
 
 		PersonDTO personDTO = PersonDTO.builder()
 									   .firstName("Diego")
@@ -119,10 +120,10 @@ public class PersonResourceIntegratedTest {
 									   .personAuth(personAuthDTO)
 									   .build();
 
-		HttpEntity<PersonDTO> request = new HttpEntity<PersonDTO>(personDTO);
-		
 		Mockito.when(this.authFeignClient.savePersonAuth(personAuthDTO)).thenReturn(ResponseEntity.ok(personAuthResponseDTO));
 
+		HttpEntity<PersonDTO> request = new HttpEntity<PersonDTO>(personDTO);
+		
 		ResponseEntity<ResponseDTO<PersonDTO>> response = testRestTemplate.exchange(
 				"http://localhost:" + port + "/person", HttpMethod.POST, request,
 				new ParameterizedTypeReference<ResponseDTO<PersonDTO>>() {
@@ -135,7 +136,18 @@ public class PersonResourceIntegratedTest {
 
 	@Test
 	public void testUpdate() {
+		
+		personAuthResponseDTO = new ResponseDTO<PersonAuthDTO>();
 
+		personAuthDTO = PersonAuthDTO.builder()
+									 .email("diego.test@gmail.com")
+									 .password("123456789")
+									 .personAuthUserKey("db6634ca8589495fb3e15043e298bc91")
+									 .build();
+
+		personAuthResponseDTO.setStatus(201);
+		personAuthResponseDTO.setData(personAuthDTO);
+		
 		PersonEntity personEntity = personRepository.findAll().get(0);
 
 		PersonDTO personDTO = PersonDTO.builder()
